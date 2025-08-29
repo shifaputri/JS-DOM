@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Cek Umur</title>
+</head>
+<body>
+
+  <h2>Form Cek Umur</h2>
+  <form id="ageForm">
+    <label for="name">Nama:</label>
+    <input type="text" id="name" placeholder="Masukkan nama">
+
+    <label for="birthdate">Tanggal Lahir:</label>
+    <input type="date" id="birthdate">
+
+    <button type="submit">Cek Umur</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById('ageForm');
+    const result = document.getElementById('result');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+   
+
+      const name = document.getElementById('name').value;
+      const birthdate = new Date(document.getElementById('birthdate').value);
+      const today = new Date();
+      const teksv = name.trim(); 
+      // Hitung umur
+      
+       if (teksv !== '') {
+        if (isNaN(birthdate.getTime())) {
+          alert('Tanggal lahir tidak valid.');
+        }
+          let age = today.getFullYear() - birthdate.getFullYear();
+          const monthDiff = today.getMonth() - birthdate.getMonth();
+          if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+            age--;
+          }
+
+
+          // Tentukan kategori
+          let category;
+          if (age < 12) {
+            category = "Anak-anak";
+          } else if (age < 18) {
+            category = "Remaja";
+          } else if (age < 60) {
+            category = "Dewasa";
+          } else {
+            category = "Lansia";
+          }
+
+          result.innerHTML = `Halo, <strong>${name}</strong>!<br>Umur kamu: <strong>${age} tahun</strong>.<br>Kategori: <strong>${category}</strong>`;
+      } else {
+         alert('Silakan masukkan nama dan tanggal lahir.');
+      }
+
+    });
+  </script>
+
+</body>
+</html>
