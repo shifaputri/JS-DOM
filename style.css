@@ -1,35 +1,82 @@
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #67b0c6, #cee3f8, #1e3c72);
+      background: linear-gradient(to right, #1c3c50, #7fc9f4, #1c3c50);
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-top: 50px;
+      color: #fff; 
     }
+
     form {
-      background: linear-gradient(to bottom, #5a7fa9, #a1c7e6);
+      background: linear-gradient(to bottom, #3c6390, #9dcaef);
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgb(255, 255, 255);
+      box-shadow: 0 2px 5px rgb(242, 239, 239);
       width: 300px;
     }
+
     input, button {
       width: 100%;
       margin: 8px 0;
       padding: 8px;
       border-radius: 5px;
-      border: 1px solid #5474a2;
+      border: 1px solid #9fc2d9;
     }
+
     button {
-      background: linear-gradient(to right, #f6f5f2, #08558d);
-      color: rgb(255, 255, 255);
+      background: linear-gradient(to right, #fefefd, #f5f0d3);
+      color: rgb(37, 66, 95);
       border: none;
       cursor: pointer;
     }
+
     button:hover {
-      background: linear-gradient(to right, #08558d, #f6f5f2);
+      background: linear-gradient(to right, #f5f0d3, #fefefd);
     }
-    #result {
-      margin-top: 20px;
-      font-weight: bold;
+
+    table {
+      margin-top: 30px;
+      width: 80%;
+      max-width: 600px;
+      border-collapse: collapse;
+      background-color: #053b61;
+      color: #8e8354;
+    }
+
+    th, td {
+      border: 1px solid hsl(100, 33%, 98%);
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e8e8c2;
+    }
+
+    .action-btn {
+      margin: 0 5px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: #ffc107;
+    }
+
+    .delete-btn {
+      background-color: #f3c38d;
+      color: rgb(37, 66, 95);
+    }
+
+    .save-btn {
+      background-color: #f3f2f2; 
+      color: rgb(37, 66, 95);
+    }
+
+    .cancel-btn {
+      background-color: #fffcfc;
+      color: rgb(37, 66, 95);
     }

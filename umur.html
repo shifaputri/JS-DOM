@@ -3,66 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
   <title>Cek Umur</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <h2>Form Cek Umur</h2>
-  <form id="ageForm">
-    <label for="name">Nama:</label>
-    <input type="text" id="name" placeholder="Masukkan nama">
 
-    <label for="birthdate">Tanggal Lahir:</label>
-    <input type="date" id="birthdate">
+    <form id="ageForm">
+      <label for="name">Nama:</label>
+      <input type="text" id="name" placeholder="Masukkan nama" required>
 
-    <button type="submit">Cek Umur</button>
-  </form>
+      <label for="birthdate">Tanggal Lahir:</label>
+      <input type="date" id="birthdate" required>
 
-  <div id="result"></div>
+      <button type="submit">Cek Umur</button>
+    </form>
+
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Umur</th>
+          <th>Kategori</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
   <script>
+    let editingRow = null;
     const form = document.getElementById('ageForm');
-    const result = document.getElementById('result');
+    const resultTable = document.getElementById('resultTable').querySelector('tbody');
+
     form.addEventListener('submit', function(e) {
-      e.preventDefault();
+      e.preventDefault(); 
 
-   
-
-      const name = document.getElementById('name').value;
+      const name = document.getElementById('name').value.trim();
       const birthdate = new Date(document.getElementById('birthdate').value);
       const today = new Date();
-      const teksv = name.trim(); 
-      // Hitung umur
-      
-       if (teksv !== '') {
-        if (isNaN(birthdate.getTime())) {
-          alert('Tanggal lahir tidak valid.');
-        }
-          let age = today.getFullYear() - birthdate.getFullYear();
-          const monthDiff = today.getMonth() - birthdate.getMonth();
-          if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
-            age--;
-          }
 
-
-          // Tentukan kategori
-          let category;
-          if (age < 12) {
-            category = "Anak-anak";
-          } else if (age < 18) {
-            category = "Remaja";
-          } else if (age < 60) {
-            category = "Dewasa";
-          } else {
-            category = "Lansia";
-          }
-
-          result.innerHTML = `Halo, <strong>${name}</strong>!<br>Umur kamu: <strong>${age} tahun</strong>.<br>Kategori: <strong>${category}</strong>`;
-      } else {
-         alert('Silakan masukkan nama dan tanggal lahir.');
+      if (!name || isNaN(birthdate.getTime())) {
+        alert('Silakan masukkan nama dan tanggal lahir yang valid.');
+        return;
       }
 
+      let age = today.getFullYear() - birthdate.getFullYear();
+      const monthDiff = today.getMonth() - birthdate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+        age--;
+      }
+
+      let category = '';
+      if (age < 12) category = 'Anak-anak';
+      else if (age < 18) category = 'Remaja';
+      else if (age < 60) category = 'Dewasa';
+      else category = 'Lansia';
+
+      if (editingRow) {
+    editingRow.innerHTML = `
+      <td>${name}</td>
+      <td>${age}</td>
+      <td>${category}</td>
+      <td>
+        <button class="action-btn edit-btn">Edit</button>
+        <button class="action-btn delete-btn">Hapus</button>
+      </td>
+    `;
+    editingRow = null; 
+  } else {
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${name}</td>
+        <td>${age}</td>
+        <td>${category}</td>
+        <td>
+          <button class="action-btn edit-btn">Edit</button>
+          <button class="action-btn delete-btn">Hapus</button>
+        </td>
+      `;
+
+      resultTable.appendChild(row); 
+      }
+      form.reset(); 
+    });
+
+    resultTable.addEventListener('click', function(e) {
+      const target = e.target;
+      const row = target.closest('tr');
+
+      if (target.classList.contains('delete-btn')) {
+        row.remove();
+      }
+
+      if (target.classList.contains('edit-btn')) {
+        const cells = row.querySelectorAll('td');
+        const name = cells[0].innerText;
+        const age = cells[1].innerText;
+
+        const today = new Date();
+        const estimatedBirthYear = today.getFullYear() - age;
+        const estimatedBirthdate = new Date(estimatedBirthYear, 0, 1); // 1 Jan
+        const formattedDate = estimatedBirthdate.toISOString().split('T')[0];
+
+        document.getElementById('name').value = name;
+        document.getElementById('birthdate').value = formattedDate;
+
+        editingRow = row; 
+      }
     });
   </script>
 
